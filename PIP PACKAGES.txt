@@ -1,0 +1,35 @@
+
+
+1.python -m pip install --upgrade pip
+2.pip  install virtualenv
+3.python -m pip install requests
+4.pip install mysqlclient
+
+UNDER DAR-ES-SALAAM ENVIROMENT [py -m venv dar-es-salaam]
+
+1.dar-es-salaam\Scripts\activate
+2.py -m pip install django
+3.py -m pip install beautifulsoup4
+4.py -m pip install requests
+5.pip install mysqlclient
+6.pip install Pillow 
+(python imaging library for opening,manipulating and saving image file)
+
+7.pip install django-crispy-forms 
+(django-crispy-forms: Optional for easily managing forms and their rendering.)
+
+8.pip install twilio
+(this package used to connect systeam with whatsap and create something like bot)
+
+TO SEE ALL PACKAGES INSTALLED
+>>pip list
+
+to print it 
+>> pip freeze > requqirements.txt
+
+to export database
+cd C:\Program Files\MySQL\MySQL Server 8.4\bin
+Mysqldump -h 127.0.0.1 -u root -p matokeo >C:\backup folder\backup.sql
+
+to import database
+Mysql -h localhost -u root -p <C:\backup folder\backup.sql

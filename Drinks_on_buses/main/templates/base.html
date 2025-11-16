@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'CSS/base.css' %}">
+  <title>{% block title %}{% endblock title %}</title>
+  
+
+</head>
+<body>
+  <div class="container">
+    <div class="header"><h2>{% block header %}{% endblock  %}</h2></div>
+
+    <div class="banner">
+        {% block message %}{% endblock  %}
+    </div>
+    
+    <div class="left">Left Aside</div>
+    
+    <div class="main">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <div class="right">Right Aside</div>
+    
+    <div class="low">
+       {% block info %}{% endblock%}
+        <div class="small">Thank you for using our services</div> 
+    </div>
+    
+  </div>
+    {% comment %} <div class="footer">
+        &copy;12/11/2025 15:14 — System version: 1.0(25)
+    </div> {% endcomment %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Store Status</title>
+</head>
+<body>
+    <h1>Current Drinks Store</h1>
+
+    <p><strong>Soda:</strong> {{ store.soda_store }}</p>
+    <p><strong>Water:</strong> {{ store.water_store }}</p>
+
+    <a href="{% url 'request_take'%}">Request Soda/Water</a><br>
+    {% if user.is_staff %}
+        <a href="{% url 'add_to_store'%}">Add to Store</a><br>
+        <a href="{% url 'pending_transactions'%}">Pending Transactions</a>
+    {% endif %}
+    <br>
+    <span><a href="{% url 'home'%}">HOME</a></span>
+</body>
+</html>

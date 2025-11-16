@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <style>
+         body { font-family: Arial; font-size: 14px; }
+        .box { border: 1px solid black; padding: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 6px; }
+        .section{
+            display: flex;
+            justify-content: space-around;
+        }
+        .print{
+            display:flex;
+            justify-content: center;
+        }
+        .identity{
+            display:none;
+        }
+        @media print{
+            .print{
+                display:none;
+            }
+            .identity{
+                display:flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="print"><span><a href="{% url 'home'%}">HOME</a></span></div>
+    <div class="identity">Printed by <b><big> {{ user.username }} </big></b></div>
+    
+    <main>
+       
+ 
+
+<h2>INCOME AND EXPENDITURE of <u>{{today}}</u> </h2>
+
+<div class="box">
+    {% comment %} <p><strong>User:</strong> {{ transaction.user.username }}</p>
+    
+    <p><strong>Car:</strong> {{ transaction.car_id }}</p>
+    
+    <p><strong>:</strong> {{ transaction.id }}</p> {% endcomment %}
+</div>
+
+<h3>Details Amount</h3>
+<table>
+    <tr>
+        <th>Total Soda Sold</th>
+        <td>{{ total_soda_sold }}</td>
+    </tr>
+    <tr>
+        <th>Total Water Sold</th>
+        <td>{{ total_water_sold }}</td>
+    </tr>
+    <tr>
+        <th>Soda In Store</th>
+        <td>{{ store.soda_store }} </td>
+    </tr>
+    <tr>
+        <th>Water In Store</th>
+        <td>{{ store.water_store }} </td>
+    </tr>
+</table>
+
+<h3>TODAY'S TRANSACTIONS ({{ today }})</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Soda Sold</th>
+            <th>Water Sold</th>
+            <th>Car</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.user.username }}</td>
+            <td>{{ t.soda_amount }}</td>
+            <td>{{ t.water_amount }}</td>
+            <td>{{ t.car_id }}</td>
+            <td>{{ t.created_at|time:"H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No transactions today</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>INCOME</h3>
+<table>
+    <tr>
+        <th>COLLECTED CASH </th>
+        <td>{{ total_price }}TZS</td>
+    </tr>
+ 
+</table>
+<br><br>
+<h3>EXPENDITURE</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Type of Use</th>
+            <th>Informantion</th>
+            <th>Value_Amount</th>
+            <th>Approved by</th>
+            <th>created on</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for expences in exp %}
+            <tr>
+                <td>{{ expences.expend_type}}</td>
+                <td>{{ expences.info }}</td>
+                <td>{{ expences.value_amount }}</td>
+                <td>{{ expences.approved_by }}</td>
+                <td>{{ expences.created_on }}</td>
+            
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No expences today</td></tr>
+            {% endfor %}
+        </tr>
+    
+        <tr>
+            <th>Total Expenditure amount</th>
+            <td>{{ total_expenditure}} <b>TZS</b></td>
+        </tr>
+    </tbody>
+    
+</table>
+<br><br>
+<div class="section">
+    <div>
+        <strong>CASH AMOUNT = COLLECTED CASH - TOTAL EXPENDITURE </strong>
+ 
+    </div>
+</div>
+<div class="section">
+    <div>
+        <strong>{{cash_amount}}TZS = {{ total_price }}TZS- {{ total_expenditure}}TZS</strong>   
+    </div>
+</div>
+<br><br>
+<div class="section">
+    <div><strong> <h2># CASH AMOUNT:</h2></strong></div>
+
+    <div><strong><h2>{{cash_amount}}TZS</h2></strong></div>
+</div>
+
+<div class="print">
+    <button onclick="window.print()">print 🖨</button>
+    
+</div>
+<div class="print">
+    <a href="{% url 'daily_report' %}">
+        <button>Download Excel 📥</button>
+    </a>
+</div>
+
+
+    </main>
+</body>
+</html>

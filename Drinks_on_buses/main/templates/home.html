@@ -1,0 +1,59 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+ {% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <header>
+        <h1>This is home page</h1>
+        <nav>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </nav>
+        <b>
+            {% if user.is_authenticated %}
+                <h2>Welcome, {{ user.username }}</h2>
+                
+                <p>If you need to Exit click.. <b><a href="{% url 'logout' %}">Logout</a></b></p>
+
+                <br>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'logbook' %}">LOGBOOK</a></li>
+                <li><a href="{% url 'store_status' %}">STORE STATUS</a></li>
+                <li><a href="{% url 'add_to_store' %}">ADD TO STORE</a></li>
+                <li><a href="{% url 'pending_transactions' %}">PENDING TRANSACTION</a></li>
+                <li>
+                    <a href="{% url 'search_car_transactions' %}" >Search  Records</a>
+                    <li><a href="{% url 'daily_report' %}">sales report</a></li>
+                    <a href="{% url 'searchtransaction' %}">SEARCH INCOME AND EXPENCES TRANSACTIONS</a>
+                </li>
+                {% else %}
+                    ENJOY THE MOMENT PLACE YOUR ORDER NOW
+                {% endif %}
+                
+                
+                
+                <li><a href="{% url 'transaction_list' %}">TRANSACTION LIST</a></li>
+                <li><a href="{% url 'request_take' %}">MAKE A DRINKS REQUEST</a></li>
+
+                
+                
+            {% else %}
+                <p>Please <a href="{% url 'login' %}">Login</a>.</p>
+                <li>Or Create Account<a href="{% url 'registration' %}">Registration</a></li>
+            {% endif %}
+        </b>
+    </header>
+</body>
+</html>

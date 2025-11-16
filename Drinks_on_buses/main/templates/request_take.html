@@ -1,0 +1,134 @@
+<!-- templates/request_take.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <span><a href="{% url 'home'%}">HOME</a></span>
+    <title>Request Soda/Water</title>
+</head>
+<body>
+
+    <h1>Request Soda or Water</h1>
+    <nav>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li style="color:green;">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    </nav>
+
+    <form method="post">
+        {% csrf_token %}
+        <h3>Going route</h3>
+        <datalist id="regions">
+            <option value="DAR-ES-SALAAM">DAR-ES-SALAAM</option>
+            <option value="TARAKEA">ROMBO</option>
+            <option value="SINGIDA">SINGIDA</option>
+            <option value="KIOMBOI">KIOMBOI</option>
+            <option value="BABATI">BABATI</option>
+            <option value="ARUSHA">ARUSHA</option>
+            <option value="KARATU">KARATU</option>
+            <option value="MOSHI">MOSHI</option>
+
+        </datalist>
+        <datalist id="car_id">
+            <option value="T 280DZX">T 280DZX</option>
+            <option value="T 331DYR">T 331DYR</option>
+            <option value="T 195DVA">T 195DVA</option>
+            <option value="T 183EJM">T 183EJM</option>
+            <option value="T 180EJM">T 180EJM</option>
+            <option value="T 881EKY">T 881EKY</option>
+            <option value="T 476EFC">T 476EFC</option>
+            <option value="T 233EFF">T 233EFF</option>
+            <option value="T 234EFF">T 234EFF</option>
+            <option value="T 761ELK">T 761ELK</option>
+            <option value="T 762ELK">T 762ELK</option>
+            <option value="T 986ECJ">T 986ECJ</option>
+            <option value="T 612EGV">T 612EGV</option>
+            <option value="T 582ENJ">T 582ENJ</option>
+            <option value="T 486EFC">T 486EFC</option>
+            <option value="T 386EBT">T 386EBT</option>
+            <option value="T 395EGV">T 395EGV</option>
+            <option value="T 580ENJ">T 580ENJ</option>
+            <option value="T 989ECJ">T 989ECJ</option>
+            <option value="T 290DXB">T 29ODXB</option>
+            <option value="T 291DXB">T 291DXB</option>
+            <option value="T 181EJM">T 181EJM</option>
+            <option value="T 878EKY">T 878EKY</option>
+        </datalist>
+        <label for="">Plate number:</label>
+        <input type="text" list="car_id" name="car_id" id="">
+        <br><br>
+        <label for="">Going Route Date</label>
+        <input type="date" name="trip_date" id=""><br>
+        
+        <label>Start:</label>
+        <input type="text" list="regions" name="start" required><br>
+
+        <label>Destination:</label>
+        <input type="text" list="regions" name="destination" required><br>
+
+        <label>Passenger Number:</label>
+        <input type="number" name="passenger_number" required><br>
+        
+        <br><br><br>
+        <h3>Return route</h3>
+        <label for="">Return Route Date</label>
+        <input type="date" name="return_trip_date" id="">
+        <br>
+        <label>return_Start:</label>
+        <input type="text" list="regions" name="return_start" required><br>
+
+        <label>return_Destination:</label>
+        <input type="text" list="regions" name="return_destination" required><br>
+
+        <label>return_Passenger Number:</label>
+        <input type="number" name="return_passenger_number" required><br>
+
+        <br><br><br>
+
+        <label>Soda Amount:</label>
+        <input type="number" name="soda_amount" min="0" required><br><br>
+
+        <label>Water Amount:</label>
+        <input type="number" name="water_amount" min="0" required><br><br>
+
+        <button type="submit">Request</button>
+    </form>
+
+    <h2>My Requests</h2>
+    
+    <table border="5" cellpadding="5" style=" border: 1px solid black;
+        border-collapse: collapse;" >
+        
+        <thead>
+            <tr><th>Car Id</th>
+                <th>Transaction Type</th>
+                <th>No of Drinks</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tx in request.user.transaction_set.all %}
+            <tr>
+                <td>{{tx.car_id}}</td>
+                <td>{{ tx.transaction_type|title }}</td>
+                <td>Soda: {{ tx.soda_amount }}, Water: {{ tx.water_amount }}</td>
+                <td>{{ tx.status|title }}</td>
+                <td>Created at: {{ tx.created_at }} <b>On</b> {{ tx.created_on }}</td>
+                
+            </tr>
+            <tr>
+                {% empty %}
+                    <b>No requests yet</b>
+                {% endfor %}
+            </tr>
+        </tbody> 
+    </table>
+
+    <a href="{% url 'store_status' %}">View Store Status</a>
+</body>
+</html>

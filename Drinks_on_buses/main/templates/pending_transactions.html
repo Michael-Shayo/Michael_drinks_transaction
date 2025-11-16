@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pending Transactions</title>
+</head>
+<body>
+    <h1>Pending Transactions</h1>
+
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Car id</th>
+                <th>Type</th>
+                <th>Soda</th>
+                <th>Water</th>
+                <th>Requested At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in transactions %}
+                <tr>
+                    <td>{{ order.user.username }}</td>
+                    <td>{{ order.car_id}}</td>
+                    <td>{{ order.transaction_type|title }}</td>
+                    <td>{{ order.soda_amount }}</td>
+                    <td>{{ order.water_amount }}</td>
+                    <td>{{ order.created_at }} <b>On</b> {{ order.created_on }}</td>
+                    <td>
+                        <a href="{% url 'confirm_transaction' order.id %}">Confirm / Decline</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No pending transactions</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'store_status' %}">View Store Status</a>
+    <br>
+    <span><a href="{% url 'home'%}">HOME</a></span>
+</body>
+</html>

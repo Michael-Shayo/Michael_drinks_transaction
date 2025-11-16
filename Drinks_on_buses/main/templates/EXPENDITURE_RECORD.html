@@ -1,0 +1,29 @@
+<h3>TODAY'S TRANSACTIONS</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Soda</th>
+            <th>Water</th>
+            <th>Car</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.user.username }}</td>
+            <td>{{ t.soda_amount }}</td>
+            <td>{{ t.water_amount }}</td>
+            <td>{{ t.car_id }}</td>
+            <td>{{ t.created_at|time:"H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No transactions today</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
