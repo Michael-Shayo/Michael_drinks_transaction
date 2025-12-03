@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+   Log Book
+{% endblock title %}
+
+{% block head %}
+    Log Book
+{% endblock head %}
+
+{% block header %}
+    Log Book - User Profiles
+{% endblock header %}
+
+{% block content %}
+
+    <table border="2" cellpadding="4"style="border-collapse: collapse; width:80%; background:white; color:black;">
+        <thead  style="background:#e3e3e3; font-weight:bold;">
+            <tr>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>last login</th>
+                <th>date join</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for profile in profiles %}
+            <tr>
+                <td>{{ profile.user.username}}</td>
+                <td>{{ profile.user.first_name }}</td>
+                <td>{{ profile.user.last_name }}</td>
+                <td>{{ profile.user.email }}</td>
+                <td>{{ profile.phone }}</td>
+                <td>{{ profile.user.last_login }}</td>
+                <td>{{ profile.user.date_joined}}</td>
+            
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No users found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% endblock content %}

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Drinks Login</title>
+
+    <style>
+        html {
+            background: rgb(7, 17, 37);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            min-height: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #2D5B75;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #071125cc;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .loading span {
+            width: 4px;
+            height: 10px;
+            background: whitesmoke;
+        }
+
+        .loading span:nth-child(1) {
+            background-color: blue;
+        }
+
+        .loading span:nth-child(2) {
+            background-color: violet;
+        }
+
+        .loading span:nth-child(3) {
+            background-color: red;
+        }
+
+        .loading span:nth-child(4) {
+            background-color: orange;
+        }
+
+        .loading span:nth-child(5) {
+            background-color: green;
+        }
+
+        .start span {
+            animation: scale 0.9s ease-in-out infinite;
+        }
+
+        .start span:nth-child(1) {
+            animation-delay: -0.10s;
+        }
+
+        .start span:nth-child(2) {
+            animation-delay: -0.8s;
+        }
+
+        .start span:nth-child(3) {
+            animation-delay: -0.6s;
+        }
+
+        .start span:nth-child(4) {
+            animation-delay: -0.4s;
+        }
+
+        .start span:nth-child(5) {
+            animation-delay: -0.2s;
+        }
+
+        @keyframes scale {
+            0% {
+                height: 10px;
+            }
+
+            20% {
+                height: 20px;
+            }
+
+            30% {
+                height: 30px;
+            }
+
+            40% {
+                height: 40px;
+            }
+
+            50% {
+                height: 50px;
+            }
+
+            60% {
+                height: 50px;
+            }
+
+            70% {
+                height: 40px;
+            }
+
+            80% {
+                height: 30px;
+            }
+
+            90% {
+                height: 20px;
+            }
+
+            100% {
+                height: 10px;
+            }
+        }
+
+        form {
+            background: #cecece;
+            display: grid;
+            justify-content: center;
+            border: 1px solid transparent;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin: 1rem;
+            width: fit-content;
+            border-radius: 2rem;
+        }
+
+        input {
+            all: unset;
+            padding: 0.7rem 15px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            box-shadow: 0px 7px 10px 3px #071125cc;
+            transition: border 0.5s ease-in-out;
+        }
+
+        input:focus {
+            border-color: #071125;
+            font-size: larger;
+            box-shadow: 0px 7px 10px 7px #071125cc;
+        }
+
+        input::placeholder {
+            font-size: x-large;
+        }
+
+        button {
+            padding: 1rem;
+            border: none;
+            background: lightblue;
+            border-radius: 0.5rem;
+            margin: 1rem;
+            box-shadow: 0px 4px 4px 0px #071125cc;
+
+
+        }
+
+        button:focus {
+            background: blue;
+            transform: scale(0.9);
+        }
+
+        button:hover {
+            box-shadow: 0px 4px 4px 4px #071125cc;
+        }
+        nav ul li{
+            list-style: none;
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form action="" method="post">
+        <h2>Login</h2>
+        <br>
+        <nav>
+
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li style="color: {% if message.tags == 'warning' %}red{% else %}green{% endif %};">
+                            {{ message }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+        </nav>
+        <br>
+        {% csrf_token %}
+        <label for="username">Username</label><br>
+        <input type="text" name="username" id="username" placeholder="Enter username" ><br><br>
+        <label for="password">Password</label><br>
+        <input type="password" name="password" id="password" placeholder="........" ><br><br>
+        <button type="submit" id="btn">LOGIN</button>
+        <p>If you dont have an Account
+            <br>Please Create Account <a href="{% url 'registration' %}">Registration</a></li>
+    </form>
+
+    <div id="overlay">
+        <div class="loading" id="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById("btn");
+        const overlay = document.getElementById("overlay");
+        const loader = document.getElementById("loader");
+
+        btn.addEventListener("click", (event) => {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            // Check if fields are empty
+            if (username === "" || password === "") {
+                event.preventDefault(); // stop form from submitting
+                alert("Please fill in all fields.");
+                return; // do not start animation
+            }
+
+            overlay.style.display = "flex";
+            loader.classList.add("start");
+        });
+    </script>
+
+</body>
+
+</html>

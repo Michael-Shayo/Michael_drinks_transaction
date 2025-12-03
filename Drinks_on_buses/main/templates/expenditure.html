@@ -1,0 +1,77 @@
+<style>
+    form {
+        width: 100%;
+        max-width: 500vw;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #FF9A00;
+    }
+
+    form {
+        display: grid;
+        justify-content: center;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: black;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        padding: 10px 15px;
+        background: #062b3a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        box-shadow: 10px 10px 20px #bebebe,
+                    -20px -20px 20px #ffffff;
+    }
+</style>
+{% extends 'base.html' %}
+
+{% block title %}
+    Expenditure Form
+{% endblock title %}
+
+{% block content %}
+<form action="" method="post">
+     {% csrf_token %}
+    <label for="type">Money for</label>
+    <input type="text" list="expend_type" name="type" id="">
+    <datalist id="expend_type">
+        <option value="office"></option>
+        <option value="payments"></option>
+        <option value="food_allowance"></option>
+        <option value="other_activity"></option>
+    </datalist>
+    <br><br>
+    <label for="info">short info</label>
+    <textarea name="info" id="" cols="30" rows="5"></textarea>
+    <br>
+    <label for="amount">Amount</label>
+    <input type="number" name="amount" id="">
+
+    <button type="submit">Send The Data</button>
+
+</form>
+{% endblock content %}
+
+

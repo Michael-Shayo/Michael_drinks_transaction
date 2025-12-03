@@ -1,0 +1,137 @@
+<style>
+    form{
+        display: flex;
+        gap: 0.5rem;
+    }
+    input {
+
+        padding: 0.7rem 15px;
+        height: 50px;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        box-shadow: 0px 7px 10px 3px #071125cc;
+        transition: border 0.5s ease-in-out;
+    }
+
+    input:focus {
+        /* border-color: #071125; */
+        font-size: larger;
+        /* box-shadow: 0px 7px 10px 7px #071125cc; */
+    }
+
+    input::placeholder {
+        font-size: x-large;
+    }
+
+    button {
+        padding: 1rem;
+        border: none;
+        background: lightblue;
+        border-radius: 0.5rem;
+        margin: 1rem;
+        box-shadow: 0px 4px 4px 0px #071125cc;
+
+
+    }
+</style>
+{% extends 'base.html' %}
+
+{% block title %}
+    Cashier Report
+{% endblock title %}
+
+{% block header%}
+    Cashier Report
+{% endblock header%}
+
+{% block extra %}
+   
+{% endblock extra %}
+
+{% block content %}
+<button onclick="downloadXLSX()" 
+        style="padding:8px 15px; background:#0d6efd; color:white; border:none; border-radius:5px; cursor:pointer;">
+    Download Excel
+</button>
+        <form method="get" style="margin-bottom: 20px;">
+            <label>From:</label>
+            <input type="date" name="start" value="{{ start }}" required>
+
+            <label>To:</label>
+            <input type="date" name="end" value="{{ end }}" required>
+
+            <button type="submit">Search</button>
+        </form>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+        {% if grouped_data %}
+        <table border="1" cellpadding="4" cellspacing="0"
+            style="border-collapse: collapse; width:80%; background:white; color:black;">
+
+            <thead style="background:#e3e3e3; font-weight:bold;">
+                <tr>
+                    <th>Car ID</th>
+                    <th>Conductor Name</th>
+                    <th>Soda</th>
+                    <th>Maji</th>
+                    <th>Jumla (Soda + Maji)</th>
+                    <th>Abiria Kwenda</th>
+                    <th>Abiria Kurudi</th>
+                    <th>Jumla Ya Abiria</th>
+                    <th>Mtoaji</th>
+                </tr>
+            </thead>
+
+            {% for day, records in grouped_data.items %}
+            <!-- DAY HEADER -->
+            <tr style="background:#d9f1ff;">
+                <td colspan="9"><b>DAY – {{ day }}</b></td>
+            </tr>
+
+            {% for t in records %}
+            <tr>
+                <td>{{ t.car_id }}</td>
+                <td>{{ t.user.username }}</td>
+
+                <td>{{ t.soda_amount }}</td>
+                <td>{{ t.water_amount }}</td>
+                <td>{{ t.soda_amount|add:t.water_amount }}</td>
+
+                <!-- Passenger stats -->
+                <!-- PASSENGERS FROM STATISTICS MODEL -->
+                <td>{{ t.tripstatics.passenger_number }}</td>
+                <td>{{ t.tripstatics.return_passenger_number }}</td>
+                <td>{{ t.tripstatics.passenger_number|add:t.tripstatics.return_passenger_number }}</td>
+
+                <!-- MTOAJI -->
+                <td>
+                    {% if t.confirmed_by %}
+                    {{ t.confirmed_by.username }}
+                    {% else %}
+                    —
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+
+            {% endfor %}
+        </table>
+        {% else %}
+        <tr> <b>No data in the entire period of the above dates</b> </tr>
+        {% endif %}
+
+        <script>
+function downloadXLSX() {
+    // 1. Chukua table element
+    var table = document.querySelector("table");
+
+    // 2. Convert table to worksheet
+    var workbook = XLSX.utils.table_to_book(table, { sheet: "Report" });
+
+    // 3. Itengeneze kama .xlsx
+    XLSX.writeFile(workbook, "soda_abiria_report.xlsx");
+}
+</script>
+
+{% endblock content %}

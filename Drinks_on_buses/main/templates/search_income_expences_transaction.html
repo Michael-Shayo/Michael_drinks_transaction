@@ -1,0 +1,75 @@
+<style>
+    input{
+        width: 10rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        border: none;
+    }
+    form button{
+        width: 8rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        border: none;
+    }
+</style>
+{%extends 'base.html'%}
+
+{% block title %}
+    Search Transactions
+{% endblock title %}
+
+{% block head %}
+    Search Transactions
+{% endblock head %}
+
+
+
+{% block header%}
+    Search Transactions by Date
+{% endblock header%}
+
+{% block content %}
+    <form method="GET">
+    <label>Select Date:</label>
+    <input type="date" name="date" value="{{ date }}">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% if transactions %}
+<h3>RESULT FOR: {{ date }}</h3>
+
+<p><b>Total Soda Sold:</b> {{ total_soda_sold }}</p>
+<p><b>Total Water Sold:</b> {{ total_water_sold }}</p>
+<p><b>Total Income:</b> {{ total_price }} TZS</p>
+<p><b>Total Expenditure:</b> {{ total_expenditure }} TZS</p>
+<p><b>Cash Amount:</b> {{ cash_amount }} TZS</p>
+
+<h3>Transaction Details</h3>
+<table border="1">
+    <tr>
+        <th>User</th>
+        <th>Soda</th>
+        <th>Water</th>
+        <th>total_price</th>
+        <th>Date</th>
+    </tr>
+    {% for t in transactions %}
+    <tr>
+        <td>{{ t.user }}</td>
+        <td>{{ t.soda_amount }}</td>
+        <td>{{ t.water_amount }}</td>
+        <td>{{ t.total_price }}</td>
+        <td>{{ t.created_on }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<p>No data. Please select a date.</p>
+{% endif %}
+
+{% endblock content %}
+
+

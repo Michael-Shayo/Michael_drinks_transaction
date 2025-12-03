@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Store Status
+{% endblock title %}
+
+{% block header%}
+    Current Drinks store
+{% endblock header%}
+
+{% block extra %}
+    {% if user.is_staff %}
+        <a href="{% url 'add_to_store'%}">Add to Store</a><br>
+        <a href="{% url 'pending_transactions'%}">Pending Transactions</a>
+    {% endif %}
+{% endblock extra %}
+
+{% block content %}
+    <h2><strong>Soda In Store : </strong> {{ store.soda_store }} <sup>carton</sup></h2>
+    <h2><strong>Water In Store : </strong> {{ store.water_store }} <sup>carton</sup></h2>
+{% endblock content %}

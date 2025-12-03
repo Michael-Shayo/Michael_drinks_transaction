@@ -1,0 +1,58 @@
+<style>
+    #item {
+        font-size: 18px;
+        color: black;
+    }
+
+    button {
+        padding: 10px 15px;
+        background: #062b3a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        
+    }
+
+    button:hover {
+        box-shadow: 0px 5px 10px #bebebe;
+    }
+    
+</style>
+{% extends 'base.html'%}
+{% block title %}
+Confirm Transaction
+{% endblock title %}
+
+{% block header%}
+Confirm Transaction
+{% endblock header%}
+
+{% block extra %}
+  <a href="{% url 'pending_transactions' %}">Back to Pending Transactions</a>
+{% endblock extra %}
+
+{% block content %}
+
+
+
+    <p><strong>User:</strong> {{ transaction.user.username }}</p>
+    <p><strong>Car Id:</strong> {{transaction.car_id}}</p>
+    <p><strong>Type:</strong> {{ transaction.transaction_type|title }}</p>
+    <p><strong>Soda:</strong> {{ transaction.soda_amount }}</p>
+    <p><strong>Water:</strong> {{ transaction.water_amount }}</p>
+    <p><strong>Status:</strong> {{ transaction.status|title }}</p>
+    <p><strong>Requested at:</strong> {{transaction.created_on}}</p>
+    <br>
+    <p><strong>Total Price:</strong> {{transaction.total_price}}</p>
+
+    {% if transaction.status == "pending" %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="action" value="confirm">Confirm</button>
+            <button type="submit" name="action" value="decline">Decline</button>
+        </form>
+    {% else %}
+        <p>Transaction has been {{ transaction.status }} by {{ transaction.confirmed_by.username }}</p>
+    {% endif %}
+{% endblock content %}

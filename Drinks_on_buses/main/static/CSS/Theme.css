@@ -1,0 +1,34 @@
+ body {
+     transition: all 1.5s linear;
+ }
+
+ /* light mode */
+
+
+ /* dark mode */
+ .Toggle_button {
+     position: fixed !important;
+     right: 4rem !important;
+     top: 1rem !important;
+
+     border: none;
+     padding: 0.7rem;
+     border-radius: 1rem;
+     background: white;
+     color: black;
+ }
+
+ .Toggle_button:active {
+     border: 1px solid black;
+ }
+
+ body.dark {
+     background: #1C222D;
+     color: white;
+ }
+ .sidebar {
+    background: #1d3557 !important;
+ }
+ .sidebar h2{
+    color: #E7CCAB;
+ }

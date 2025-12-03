@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home page
+{% endblock title %}
+
+{% block head %}
+    Home page
+{% endblock head %}
+
+
+
+{% block header%}
+    {% if user.is_authenticated %}
+        Welcome, {{ user.username }}
+    {% else %}
+    <a href="{% url 'registration' %}">Registration</a>
+{% endif %}
+{% endblock header%}
+
+{% block content %}
+<h1>This is home page</h1>
+<a href="{% url 'search_car_transactions' %}">Search Records</a>
+{% endblock content %}

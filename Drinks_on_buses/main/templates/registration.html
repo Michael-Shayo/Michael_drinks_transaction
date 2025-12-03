@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Drinks- Registration</title>
+    <style>
+        html {
+            background: #071125;
+        }
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+
+        }
+
+        .container form {
+            display: grid;
+            justify-content: center;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #44779470;
+            min-height: fit-content;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #071125cc;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .loading span {
+            width: 4px;
+            height: 10px;
+            background: whitesmoke;
+        }
+
+        .loading span:nth-child(1) {
+            background-color: blue;
+        }
+
+        .loading span:nth-child(2) {
+            background-color: violet;
+        }
+
+        .loading span:nth-child(3) {
+            background-color: red;
+        }
+
+        .loading span:nth-child(4) {
+            background-color: orange;
+        }
+
+        .loading span:nth-child(5) {
+            background-color: green;
+        }
+
+        .start span {
+            animation: scale 0.9s ease-in-out infinite;
+        }
+
+        .start span:nth-child(1) {
+            animation-delay: -0.10s;
+        }
+
+        .start span:nth-child(2) {
+            animation-delay: -0.8s;
+        }
+
+        .start span:nth-child(3) {
+            animation-delay: -0.6s;
+        }
+
+        .start span:nth-child(4) {
+            animation-delay: -0.4s;
+        }
+
+        .start span:nth-child(5) {
+            animation-delay: -0.2s;
+        }
+
+        @keyframes scale {
+            0% {
+                height: 10px;
+            }
+
+            20% {
+                height: 20px;
+            }
+
+            30% {
+                height: 30px;
+            }
+
+            40% {
+                height: 40px;
+            }
+
+            50% {
+                height: 50px;
+            }
+
+            60% {
+                height: 50px;
+            }
+
+            70% {
+                height: 40px;
+            }
+
+            80% {
+                height: 30px;
+            }
+
+            90% {
+                height: 20px;
+            }
+
+            100% {
+                height: 10px;
+            }
+        }
+
+
+        form {
+            background: #cecece;
+            display: grid;
+            justify-content: center;
+            border: 1px solid transparent;
+            text-align: center;
+            padding: 2rem 4rem;
+            margin: 0rem;
+            width: 80vw;
+            max-width: fit-content;
+            border-radius: 2rem;
+            gap: 1rem;
+        }
+
+        input {
+            all: unset;
+            padding: 0.5rem 1px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            box-shadow: 0px 7px 10px 3px #071125cc;
+            transition: border 0.5s ease-in-out;
+        }
+
+        input:focus {
+            border-color: #071125;
+            font-size: larger;
+            box-shadow: 0px 7px 10px 7px #071125cc;
+        }
+
+        input::placeholder {
+            font-size: large;
+        }
+
+        button {
+            padding: 1rem;
+            border: none;
+            background: lightblue;
+            border-radius: 0.5rem;
+            margin: 1rem;
+            box-shadow: 0px 4px 4px 0px #071125cc;
+        }
+
+        button:focus {
+            background: blue;
+            transform: scale(0.9);
+        }
+
+        button:hover {
+            box-shadow: 0px 4px 4px 4px #071125cc;
+        }
+
+        nav ul li{
+            list-style: none;
+            font-size: larger;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form action="" method="post" id="regForm">
+            <h1>Registration Form</h1>
+            <nav>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li style="color: {% if message.tags == 'warning' %}red{% else %}green{% endif %};">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            </nav>
+            {% csrf_token %}
+            <input type="text" placeholder="FIRST NAME" name="first_name" id="fname">
+            <input type="text" placeholder="LAST NAME" name="last_name" id="lname">
+            <input type="text" placeholder="USER NAME" name="username" id="username" required>
+            <input type="email" placeholder="EMAIL" name="email" id="email">
+            <input type="number" placeholder="PHONE NUMBER" name="phone" id="phone" required>
+            <input type="password" placeholder="PASSWORD" name="password" id="password" required>
+            <input type="password" placeholder="CONFIRM PASSWORD" name="c_password" required>
+
+
+            <button type="submit" id="btn">Submit</button>
+            <p>Your data is submitted. Please wait to login <a href="{% url 'login' %}">Login</a></p>
+        </form>
+
+    </div>
+
+    <div id="overlay">
+        <div class="loading" id="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <script>
+        const btn = document.getElementById("btn");
+        const overlay = document.getElementById("overlay");
+        const loader = document.getElementById("loader");
+
+        btn.addEventListener("click", (event) => {
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (username === "" || email === "" || phone === "" || password === "") {
+                event.preventDefault();
+                alert("Please fill all required fields: Username, Email, Phone Number, Password.");
+                return;
+            }
+
+            overlay.style.display = "flex";
+            loader.classList.add("start");
+        }); 
+    </script>
+</body>
+
+</html>

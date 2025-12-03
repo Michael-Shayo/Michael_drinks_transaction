@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+    <h1 style="text-align:center; margin-bottom:15px; color:#0d6efd; font-size:2rem;">📝 Request Soda/Water</h1>
+    <nav>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li style="color:green; text-align:center; list-style: none; ">
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+    {% block title%}
+    - Order drinks
+    {% endblock title %}
+
+    {% block head %}
+    Order Drinks
+    {% endblock head %}
+
+    {% block header %}
+        Drinks Order - Place your order
+    {% endblock header %}
+
+     {% block extra%}
+     <a href="{% url 'store_status' %}">View Store Status</a>
+    {% endblock extra %}
+
+    {% block content %}
+    <div style="
+        background:#f8f9fa; 
+        padding: 3vh 15vw; 
+        border-radius:12px; 
+        box-shadow: 2px 6px rgba(0,0,0,0.08);
+        font-size:1.1rem;
+        color: #212529;
+        max-height:90vh;   
+        overflow-y:auto;   
+    ">
+        <form method="post" style="display:flex; flex-direction:column; gap:15px;">
+
+            {% csrf_token %}
+            <!-- Datalists -->
+            <datalist id="regions">
+                <option value="DAR-ES-SALAAM">
+                <option value="ROMBO">
+                <option value="SINGIDA">
+                <option value="KIOMBOI">
+                <option value="BABATI">
+                <option value="ARUSHA">
+                <option value="KARATU">
+                <option value="MOSHI">
+            </datalist>
+
+            <datalist id="car_id">
+                <option value="T 280DZX">T 280DZX</option>
+                <option value="T 331DYR">T 331DYR</option>
+                <option value="T 195DVA">T 195DVA</option>
+                <option value="T 183EJM">T 183EJM</option>
+                <option value="T 180EJM">T 180EJM</option>
+                <option value="T 881EKY">T 881EKY</option>
+                <option value="T 476EFC">T 476EFC</option>
+                <option value="T 233EFF">T 233EFF</option>
+                <option value="T 234EFF">T 234EFF</option>
+                <option value="T 761ELK">T 761ELK</option>
+                <option value="T 762ELK">T 762ELK</option>
+                <option value="T 986ECJ">T 986ECJ</option>
+                <option value="T 612EGV">T 612EGV</option>
+                <option value="T 582ENJ">T 582ENJ</option>
+                <option value="T 486EFC">T 486EFC</option>
+                <option value="T 386EBT">T 386EBT</option>
+                <option value="T 395EGV">T 395EGV</option>
+                <option value="T 580ENJ">T 580ENJ</option>
+                <option value="T 989ECJ">T 989ECJ</option>
+                <option value="T 290DXB">T 29ODXB</option>
+                <option value="T 291DXB">T 291DXB</option>
+                <option value="T 181EJM">T 181EJM</option>
+                <option value="T 878EKY">T 878EKY</option>
+                <option value="T 611EGV">UMEME</option>
+            </datalist>
+
+            <label>Plate Number:</label>
+            <input type="text" list="car_id" name="car_id" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <h3 style="margin-top:20px; color:#198754;">⏩Going Route</h3>
+            <label>Going Route Date:</label>
+            <input type="date" name="trip_date" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Start:</label>
+            <input type="text" list="regions" name="start" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Destination:</label>
+            <input type="text" list="regions" name="destination" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Passenger Number:</label>
+            <input type="number" name="passenger_number" min="0" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+
+            <h3 style="margin-top:20px; color:#198754;">🔁 Return Route</h3>
+            <label>Return Route Date:</label>
+            <input type="date" name="return_trip_date"
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Return Start:</label>
+            <input type="text" list="regions" name="return_start"
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Return Destination:</label>
+            <input type="text" list="regions" name="return_destination"
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Return Passenger Number:</label>
+            <input type="number" name="return_passenger_number" min="0"
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+
+            <h3 style="margin-top:20px; color:#0d6efd;">🥤 Drinks</h3>
+            <label>Soda Amount:</label>
+            <input type="number" name="soda_amount" min="0" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <label>Water Amount:</label>
+            <input type="number" name="water_amount" min="0" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+
+            <h3 style="margin-top:20px; color:#0d6efd;">👨‍💼Provider</h3>
+            <label>Mtoaji (Michael/Dulla):</label>
+            <input type="text" list="mtoaji_list" name="mtoaji" required
+                style="padding:12px; border-radius:8px; border:1px solid #ced4da; width:100%; font-size:1.1rem;">
+            <datalist id="mtoaji_list">
+                <option value="Michael">
+                <option value="Dulla">
+            </datalist>
+
+            <button type="submit" style="
+                margin-top:12px; 
+                padding:15px; 
+                background:#0d6efd; 
+                color:white; 
+                font-weight:bold;
+                border:none; 
+                border-radius:8px; 
+                cursor:pointer;
+                font-size:1.2rem;
+                width:100%;
+            ">Request</button>
+        </form>
+    </div>
+
+ 
+    <details style="margin-top:30px;">
+        <summary style="cursor:pointer; font-weight:bold; color:#0d6efd; text-align:center; font-size:1.2rem;">📋 Past
+            Requests</summary>
+        <div style="overflow-x:auto; margin-top:10px;">
+            <table  border="5" cellpadding="5" style=" border: 1px solid black;
+        border-collapse: collapse; color: #212529;">
+                <thead>
+                    <tr style="background:#e9ecef; font-size:1rem;">
+                        <th>Car Id</th>
+                        <th>Transaction Type</th>
+                        <th>No of Drinks</th>
+                        <th>Status</th>
+                        <th>Created at</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align:center; color:#ffffff; font-size:1rem; background-color: #bd7d08;">
+                   
+                    {% for tx in request.user.transaction_set.all %}
+                    <tr>
+                        <td>{{tx.car_id}}</td>
+                        <td>{{ tx.transaction_type|title }}</td>
+                        <td>Soda: {{ tx.soda_amount }}, Water: {{ tx.water_amount }}</td>
+                        <td>{{ tx.status|title }}</td>
+                        <td>Created at: {{ tx.created_at }} <b>On</b> {{ tx.created_on }}</td>
+
+                    </tr>
+                    <tr>
+                        {% empty %}
+                        <b>No requests yet</b>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </details>
+
+</div>
+
+<!-- Responsive Media Query -->
+<style>
+    @media (max-width: 768px) {
+        .main {
+            padding: 10px;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        form input,
+        form select,
+        form textarea,
+        form button {
+            width: 100%;
+            font-size: 1.3rem;
+            /* Enlarged font for mobile */
+            padding: 14px;
+            /* Taller input fields */
+        }
+
+        table {
+            font-size: 1.1rem;
+            /* Larger table font for readability */
+        }
+
+        summary {
+            font-size: 1.3rem;
+            /* Larger collapsible title */
+        }
+    }
+</style>
+
+
+
+
+
+{% endblock content %}
